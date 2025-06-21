@@ -1,0 +1,19 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:15
+    container_name: gochat_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: gochat
+      POSTGRES_PASSWORD: gochatpass
+      POSTGRES_DB: gochat_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+
+volumes:
+  pgdata:
