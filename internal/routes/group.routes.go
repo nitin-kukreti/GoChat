@@ -6,7 +6,7 @@ import (
 )
 
 func RegisterGroupRoutes(app server.App, groupHandler *controller.GroupHandler) {
-	groupRouter:=app.Group("api/v1/group")
+	groupRouter:=app.Group("/api/v1/group")
 	groupRouter.POST("/", groupHandler.CreateGroupHandler)
 	groupRouter.POST("/add-user", groupHandler.AddUserToGroup)
 }

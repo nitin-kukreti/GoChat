@@ -15,3 +15,11 @@ const (
 	MSGUserGetFailed           = "Failed user get"
 
 )
+
+
+type MessageType string
+
+const (
+	MessageTypeDirect MessageType = "direct"
+	MessageTypeGroup  MessageType = "group"
+)

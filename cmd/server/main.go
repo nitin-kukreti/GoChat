@@ -1,7 +1,10 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/nitin-kukreti/GoChat/internal/config"
+	"github.com/nitin-kukreti/GoChat/internal/infrastructure/ws"
 	"github.com/nitin-kukreti/GoChat/internal/interface/controller"
 	"github.com/nitin-kukreti/GoChat/internal/interface/storage"
 	"github.com/nitin-kukreti/GoChat/internal/routes"
@@ -11,6 +14,9 @@ import (
 
 func main() {
 	db := config.ConnectDB()
+	manager := ws.NewManager()
+	wsHandler := controller.NewWebSocketHandler(manager)
+
 	defer db.Close()
 
 	// Setup dependencies
@@ -22,11 +28,15 @@ func main() {
 
 	userHandler := controller.NewUserHandler(userUC)
 	groupHandler := controller.NewGroupHandler(groupUC)
-
+   
 	app := server.NewServer()
 
 	// Register all routes grouped by domain
-	routes.RegisterAllRoutes(app, userHandler, groupHandler)
+	// routes.RegisterAllRoutes(app, userHandler, groupHandler)
+	routes.RegisterUserRoutes(app,userHandler);
+	routes.RegisterGroupRoutes(app,groupHandler);
+	app.Register(http.MethodGet,"/ws",wsHandler.HandleConnection);
+
 
 	app.Listen(":8080")
 }

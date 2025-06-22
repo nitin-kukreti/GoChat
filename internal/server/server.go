@@ -26,29 +26,29 @@ func NewServer() *Server {
 	}
 }
 
-func (s *Server) register(method, path string, handler http.HandlerFunc) {
+func (s *Server) Register(method, path string, handler http.HandlerFunc) {
 	pattern := fmt.Sprintf("%s %s", method, path)
 	s.mux.HandleFunc(pattern, handler)
 }
 
 func (s *Server) GET(path string, handler http.HandlerFunc) {
-	s.register(http.MethodGet, path, handler)
+	s.Register(http.MethodGet, path, handler)
 }
 
 func (s *Server) POST(path string, handler http.HandlerFunc) {
-	s.register(http.MethodPost, path, handler)
+	s.Register(http.MethodPost, path, handler)
 }
 
 func (s *Server) DELETE(path string, handler http.HandlerFunc) {
-	s.register(http.MethodDelete, path, handler)
+	s.Register(http.MethodDelete, path, handler)
 }
 
 func (s *Server) PUT(path string, handler http.HandlerFunc) {
-	s.register(http.MethodPut, path, handler)
+	s.Register(http.MethodPut, path, handler)
 }
 
 func (s *Server) PATCH(path string, handler http.HandlerFunc) {
-	s.register(http.MethodPatch, path, handler)
+	s.Register(http.MethodPatch, path, handler)
 }
 
 func (s *Server) Listen(port string) {
